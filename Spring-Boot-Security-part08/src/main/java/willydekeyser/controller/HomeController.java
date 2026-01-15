@@ -2,9 +2,10 @@ package willydekeyser.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import willydekeyser.config.CustomUser;
 
 @RestController
 public class HomeController {
@@ -61,28 +62,32 @@ public class HomeController {
     }
 
     @GetMapping("/user")
-    public String private_page_user(@AuthenticationPrincipal User user) {
+    public String private_page_user(@AuthenticationPrincipal CustomUser user) {
         return ("""
                 <center>
                 <h1>Spring Boot Tutorial</h1>
                 <h2>Private Page for User!</h2>
                 <p>Username: %s</p>
+                <p>Name: %s</p>
+                <p>E-Mail: %s</p>
                 <p>Role: %s</p>
                 <a href='/'>Home</a>
                 </center>
-                """).formatted(user.getUsername().toUpperCase(), user.getAuthorities());
+                """).formatted(user.getUsername().toUpperCase(), user.name(), user.email(), user.getAuthorities());
     }
 
     @GetMapping("/admin")
-    public String private_page_admin(@AuthenticationPrincipal User user) {
+    public String private_page_admin(@AuthenticationPrincipal CustomUser user) {
         return ("""
                 <center>
                 <h1>Spring Boot Tutorial</h1>
                 <h2>Private Page for Admin!</h2>
                 <p>Username: %s</p>
+                <p>Name: %s</p>
+                <p>E-Mail: %s</p>
                 <p>Roles: %s</p>
                 <a href='/'>Home</a>
                 </center>
-                """).formatted(user.getUsername().toUpperCase(), user.getAuthorities());
+                """).formatted(user.getUsername().toUpperCase(), user.name(), user.email(), user.getAuthorities());
     }
 }
